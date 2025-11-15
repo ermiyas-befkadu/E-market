@@ -20,9 +20,9 @@
         <img src="images/logo trimmed.jpg" alt="logo" id="logo-img"class="logo-img">
         <h1 class="logo"id="logo">E-market</h1></div>
         <div class="search-input-container" id="search-input-container">
-    <input type="search" class="search-input" id="search-input"><a href="" class="search-button"><span class="material-symbols-outlined">
+    <input  class="search-input" id="search-input"><button  class="search-button"><span class="material-symbols-outlined">
 search
-</span></a></div>
+</span></button></div>
        <nav class="main-nav" id="main-nav">
             <ul class="nav-list-container" id="nav-list-container">
                 <li ><span class="icon-with-title"><a href="index.html" class="nav-link"><span class="material-symbols-outlined">
@@ -34,10 +34,10 @@ search
                 <li ><span class="icon-with-title"><a href="cart.html" class="nav-link"><span class="material-symbols-outlined">
                 shopping_cart_checkout
                 </span><span class="icon-title">cart</span></span></a></li>
-                <li ><span class="icon-with-title"><a href="#profile" class="nav-link"><span class="material-symbols-outlined">
+                <li ><span class="icon-with-title"><a href="profile.html" class="nav-link"><span class="material-symbols-outlined">
                 account_box
                 </span><span class="icon-title">profile</span></span></a></li>
-                <li ><span class="icon-with-title"><a href="#more" class="nav-link"><span class="material-symbols-outlined">
+                <li ><span class="icon-with-title"><a href="contact-us.html" class="nav-link"><span class="material-symbols-outlined">
                 more_vert
                 </span><span class="icon-title">more</span></span></a></li>
             </ul>   
@@ -75,7 +75,9 @@ search
 
 </section>
 <script type="module" >
+    import {products} from './data.js';
 
+let balance=localStorage.getItem('balance')||localStorage.setItem('balance',20000.01);
 function card_detail_creater(i){
 const item_img= document.querySelector('.item-img')
     item_img.src=`${products[i].image}`;
@@ -87,22 +89,29 @@ const long_product_description = document.querySelector('.long-product-descripti
     long_product_description.innerText=`${products[i].long_description}`;
 const product_price = document.querySelector('.product-price');
     product_price.innerText=`${products[i].price}`;
-const product_price2 = document.querySelector('.product-price2');
-    product_price2.innerText=`ETB ${products[i].price}`;
+const balance_div = document.querySelector('.product-price2');
+   balance_div.innerText='Balnace'+ Number( localStorage.getItem('balance'));
 const product_review = document.querySelector('.product-review');
     product_review.innerText=`Rating:  ${products[i].review}`;
 const available_quantity_div=document.querySelector('.available-quantity');
 const available_quantity=`${products[i].quantity}`;
 available_quantity_div.innerText=`${available_quantity} items in store`;
 
+
 const computer_btn = document.querySelector('.computer-btn');
 const buy_button = document.querySelector('.buy-button');
-const add_to_cart_btn=document.querySelector('.add-to-cart');
-let total_price=document.querySelector('.total-price');
 
+
+const add_to_cart_btn=document.querySelector('.add-to-cart-btn');
+add_to_cart_btn.addEventListener('click',()=>{
+          event.stopPropagation();
+          store(i)})
+let total_price=document.querySelector('.total-price');
+total_price.innerText=products[i].price;
+total_price.value=products[i].price;
 const quantity_input= document.querySelector('.quantity');
 const third_partion= document.querySelector('.third-partion');
-    // third_partion.style.display='none';
+
 const error404=document.querySelector('.error404');
 const error_box=document.querySelector('.error-box');
 error_box.style.display='none'
@@ -111,42 +120,114 @@ error_box.style.display='none'
 computer_btn.addEventListener('click',computer);
 function computer(){
 
-    const quantity_value =Number( quantity_input.value);
-    console.log(typeof(quantity_value));
+    const quantity_value =Number( quantity_input.value)||1;
+
     if (quantity_value<=available_quantity){
     const selected_item__price = Number(`${products[i].price}`);
     let total_value= (selected_item__price * quantity_value*100)/100;
     total_price.innerText=`${total_value}`;
+        total_price.value=`${total_value}`;
     quantity_input.value='';}
     else {error_box.style.display='flex';
+              quantity_input.value='';
           error_box.textContent=`Only a maximum of ${available_quantity} item allowed`
         setTimeout(()=>{error_box.style.display='none'},2000)
     }
 
 }
 
+buy_button.addEventListener('click',()=>{
+    let total_price2=document.querySelector('.total-price');
+    // total_price.innerText=products[i].price;
 
+
+const price=Number( total_price2.value);
+if(price<=balance){
+  let   new_balance = balance-price;
+localStorage.setItem('balance',new_balance)
+
+error_box.style.display='flex';
+error_box.style.background='var(--clr-success)';
+error_box.textContent='successfull transaction';
+setTimeout(()=>{error_box.style.display='none'},2500);
+balance=localStorage.getItem('balance');
+balance_div.innerText=balance;}
+else{
+    
+error_box.style.display='flex';
+error_box.style.background='var(--clr-error)';
+error_box.textContent='total price is over your balance';
+setTimeout(()=>{error_box.style.display='none'},2500);
+
+}
+})
+
+ 
 }
 
 
-import {products} from './data.js';
+
 const page_url=location.href;
 const page_url_array= page_url.split('=');
 const item_id= Number(page_url_array[1]);
 let item_not_found=true;
 for (let i=0;i<products.length;i++){
-let p_id =`${products[i].id}`;
+let p_id =products[i].id;
 if (p_id==item_id){
 card_detail_creater(i);
+
 item_not_found=false;
 error404.style.display='none';
 //  third_partion.style.display='flex';
 
 break;
 }
-
+// Number
     
 }
+
+const error_box=document.querySelector('.error-box'); 
+function store(i) {
+  const product_id = products[i].id;
+  console.log()
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  if (cart.includes(product_id)) {
+
+    error_box.style.display='flex';
+    error_box.textContent='item is already in cart';
+    error_box.style.background='var(--clr-warning)';
+     setTimeout(()=>{error_box.style.display='none';
+            error_box.style.background='var(--clr-error)';
+
+     },2500)
+    return;
+  }
+  else{
+      cart.unshift(product_id);
+  localStorage.setItem('cart', JSON.stringify(cart));
+     error_box.style.display='flex';
+    error_box.textContent='item was added to cart successfully';
+    error_box.style.background='var(--clr-success)';
+     setTimeout(()=>{error_box.style.display='none';
+            error_box.style.background='var(--clr-error)';
+
+     },2500)
+  }
+}
+
+
+const search_input= document.querySelector('.search-input');
+
+ let search_input_value =search_input.value;
+const search_button=document.querySelector('.search-button');
+search_button.addEventListener('click',()=>{  
+   search_input_value =search_input.value.trim().toLowerCase();
+  location.href=`./products.html?search=${search_input_value}`;})
+
+
+
+
 
 </script>
 </body>

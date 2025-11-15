@@ -1,10 +1,10 @@
 export const products=[
     {
         id:1,
-        name:"bed",
+        name:"Bed",
         description:"this is a very good bed",
         long_description:" Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima consectetur nulla corrupti sit nostrum aperiam, veritatis optio omnis nihil excepturi officiis provident numquam dolorem incidunt cupiditate doloremque praesentium. Corrupti, porro?",
-        review:5,
+        review:3,
         price:19.99,
         quantity:4,
         image:"images/products/item1.webp",
@@ -12,7 +12,7 @@ export const products=[
         currency_type:"ETB"
     },
      {
-        id:111,
+        id:2,
         name:"iphone 15 pro max",
         description:"this is a very good phone",
         long_description:" Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima consectetur nulla corrupti sit nostrum aperiam, veritatis optio omnis nihil excepturi officiis provident numquam dolorem incidunt cupiditate doloremque praesentium. Corrupti, porro?",
@@ -48,7 +48,7 @@ export const products=[
         currency_type:"ETB"
     },
     {
-        id: 222,
+        id: 5,
         name: "office chair",
         description: "Ergonomic office chair with lumbar support.",
         long_description:" Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima consectetur nulla corrupti sit nostrum aperiam, veritatis optio omnis nihil excepturi officiis provident numquam dolorem incidunt cupiditate doloremque praesentium. Corrupti, porro?",

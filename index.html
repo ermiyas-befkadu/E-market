@@ -19,9 +19,9 @@
         <img src="images/logo trimmed.jpg" alt="logo" id="logo-img"class="logo-img">
         <h1 class="logo"id="logo">E-market</h1></div>
         <div class="search-input-container" id="search-input-container">
-    <input type="search" class="search-input" id="search-input"><a href="" class="search-button"><span class="material-symbols-outlined">
+    <input  class="search-input" id="search-input"><button href="" class="search-button"><span class="material-symbols-outlined">
 search
-</span></a></div>
+</span></button></div>
          <nav class="main-nav" id="main-nav">
             <ul class="nav-list-container" id="nav-list-container">
                 <li ><span class="icon-with-title"><a href="index.html" class="nav-link"><span class="material-symbols-outlined">
@@ -33,10 +33,10 @@ search
                 <li ><span class="icon-with-title"><a href="cart.html" class="nav-link"><span class="material-symbols-outlined">
                 shopping_cart_checkout
                 </span><span class="icon-title">cart</span></span></a></li>
-                <li ><span class="icon-with-title"><a href="#profile" class="nav-link"><span class="material-symbols-outlined">
+                <li ><span class="icon-with-title"><a href="profile.html" class="nav-link"><span class="material-symbols-outlined">
                 account_box
                 </span><span class="icon-title">profile</span></span></a></li>
-                <li ><span class="icon-with-title"><a href="#more" class="nav-link"><span class="material-symbols-outlined">
+                <li ><span class="icon-with-title"><a href="contact-us.html" class="nav-link"><span class="material-symbols-outlined">
                 more_vert
                 </span><span class="icon-title">more</span></span></a></li>
             </ul>  
@@ -48,10 +48,22 @@ search
         <h3 class="hero-subtitle"id="hero-subtitle">Your one-stop shop for all things!</h3>
         <p class="hero-paragraph">Discover a world of products at your fingertips. From the latest electronics to everyday essentials, our online marketplace brings quality and convenience together. Enjoy seamless shopping, secure payments, and fast delivery, all in one place. Browse our wide selection, find great deals, and experience shopping made simple.</p>
         <div class="hero-cta-button-container" id="hero-cta-button-container">
-        <a href="#products" class="hero-cta-button"id="hero-cta-button">Shop Now</a></div>
+        <a href="products.html" class="hero-cta-button"id="hero-cta-button">Shop Now</a></div>
     </div>
         <img src="images/hero-section side img.jpg" alt="hero-section side img" class="hero-section-img" id="hero-section-img">
     </div>
 </section>
+<script>
+    
+const search_input= document.querySelector('.search-input');
+
+ let search_input_value =search_input.value;
+const search_button=document.querySelector('.search-button');
+search_button.addEventListener('click',()=>{  
+   search_input_value =search_input.value.trim().toLowerCase();
+  location.href=`./products.html?search=${search_input_value}`;})
+
+
+</script>
 </body>
 </html>
